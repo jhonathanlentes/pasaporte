@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createContext, useContext, useMemo } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, collection, doc, getDoc, setDoc, onSnapshot, query, where, addDoc, getDocs, updateDoc, arrayUnion, increment } from 'firebase/firestore';
+import { getFirestore, collection, doc, getDoc, setDoc, onSnapshot, query, where, addDoc, updateDoc, arrayUnion, increment } from 'firebase/firestore';
 
 // --- Firebase Context ---
 // This context provides Firebase instances (app, db, auth) and user data to all components.
