@@ -432,7 +432,9 @@ const PlaceDetail = ({ place, onBack, setAlertMessage }) => {
 
 
                     <div className="space-y-6">
-                        {comments.slice(0, 4).map(comment => (
+                        {loadingComments ? (
+                            <p>Cargando comentarios...</p>
+                        ) : comments.slice(0, 4).map(comment => (
                             <div key={comment.id}>
                                 <div className="flex items-center gap-3 mb-2">
                                     <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500">{comment.userId.charAt(0).toUpperCase()}</div>
