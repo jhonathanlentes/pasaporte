@@ -1828,7 +1828,7 @@ export default function WrappedApp() {
     return (
         <FirebaseProvider>
             <App />
-        </FirebaseContext.Provider>
+        </FirebaseProvider>
     );
 }
 
