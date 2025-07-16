@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createContext, useContext, useMemo } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, collection, doc, getDoc, setDoc, onSnapshot, query, where, addDoc, updateDoc, arrayUnion, increment } from 'firebase/firestore';
+import { getFirestore, collection, doc, getDoc, setDoc, onSnapshot, query, where, addDoc, getDocs, updateDoc, arrayUnion, increment } from 'firebase/firestore';
 
 // --- Firebase Context ---
 // This context provides Firebase instances (app, db, auth) and user data to all components.
@@ -396,6 +396,15 @@ const PlaceDetail = ({ place, onBack, setAlertMessage }) => {
                             </div>
                         ))}
                     </div>
+                     <div className="border-t border-gray-200 my-8"></div>
+                    <h3 className="text-2xl font-semibold text-gray-800 mb-3">Cómo Llegar</h3>
+                        <p className="text-gray-600 mb-3">{place.howToGetThere}</p>
+                        {mapLinks && (
+                            <div className="flex space-x-4 mt-2">
+                                <a href={mapLinks.googleMapsUrl} target="_blank" rel="noopener noreferrer" className="flex items-center text-blue-600 hover:underline">Google Maps</a>
+                                <a href={mapLinks.wazeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center text-blue-600 hover:underline">Waze</a>
+                            </div>
+                        )}
 
                     <div className="border-t border-gray-200 my-8"></div>
                     
