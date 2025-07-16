@@ -17,12 +17,10 @@ const FirebaseProvider = ({ children }) => {
     const [appId, setAppId] = useState(null);
 
     useEffect(() => {
-        // These variables are expected to be globally available in the execution environment.
-        // eslint-disable-next-line no-undef
-        const currentAppId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        // eslint-disable-next-line no-undef
-        const firebaseConfig = typeof __firebase_config !== 'undefined' 
-            ? JSON.parse(__firebase_config)
+        // Correctly access global variables through the window object to avoid build errors.
+        const currentAppId = typeof window.__app_id !== 'undefined' ? window.__app_id : 'default-app-id';
+        const firebaseConfig = typeof window.__firebase_config !== 'undefined' 
+            ? JSON.parse(window.__firebase_config)
             : {
                 // Fallback config for local development
                 apiKey: "AIzaSyBNqUyW6ayNujKbHBRBpBX_BozCBb3WjE0",
@@ -33,8 +31,7 @@ const FirebaseProvider = ({ children }) => {
                 appId: "1:114145620624:web:81814d8cfffa7a5091de15",
                 measurementId: "G-E38Z66B96R"
             };
-        // eslint-disable-next-line no-undef
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        const initialAuthToken = typeof window.__initial_auth_token !== 'undefined' ? window.__initial_auth_token : null;
 
         setAppId(currentAppId);
 
