@@ -13,30 +13,30 @@ const FirebaseProvider = ({ children }) => {
     const [auth, setAuth] = useState(null);
     const [userId, setUserId] = useState(null);
     const [loadingFirebase, setLoadingFirebase] = useState(true);
-    const [appId, setAppId] = useState(null); // FIX: appId moved to state
+    const [appId, setAppId] = useState(null); // appId ahora es parte del estado del proveedor
 
     useEffect(() => {
-        // --- INICIO DE LA CORRECCIÓN ---
         // Estas variables son inyectadas por el entorno de Canvas.
         // Para el despliegue fuera de Canvas, se usan valores por defecto o se espera que el usuario las configure.
-        const currentAppId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'; // Get appId value
-        setAppId(currentAppId); // Set appId to state
-        
-        // Configuración de Firebase. EN UN ENTORNO REAL, DEBES REEMPLAZAR ESTO CON TU PROPIA CONFIGURACIÓN DE FIREBASE
-        // Puedes obtenerla desde la consola de Firebase -> Configuración del proyecto -> Tus apps -> Web (</>)
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            // Ejemplo de una configuración real (REEMPLAZA CON LA TUYA):
-            // apiKey: "TU_API_KEY",
-            // authDomain: "TU_PROYECTO.firebaseapp.com",
-            // projectId: "TU_PROYECTO",
-            // storageBucket: "TU_PROYECTO.appspot.com",
-            // messagingSenderId: "TU_SENDER_ID",
-            // appId: "TU_APP_ID",
-            // measurementId: "TU_MEASUREMENT_ID"
+        const currentAppId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        setAppId(currentAppId); // Se establece el appId en el estado
+
+        // --- INICIO DE LA CONFIGURACIÓN REAL DE FIREBASE ---
+        // ¡ESTA ES LA CONFIGURACIÓN QUE ME PROPORCIONASTE DE TU PROYECTO FIREBASE!
+        const firebaseConfig = {
+            apiKey: "AIzaSyBNqUyW6ayNujKbHBRBpBX_BozCBb3WjE0",
+            authDomain: "pasaportepanamaapp.firebaseapp.com",
+            projectId: "pasaportepanamaapp",
+            storageBucket: "pasaportepanamaapp.firebasestorage.app",
+            messagingSenderId: "114145620624",
+            appId: "1:114145620624:web:81814d8cfffa7a5091de15",
+            measurementId: "G-E38Z66B96R"
         };
+        // --- FIN DE LA CONFIGURACIÓN REAL DE FIREBASE ---
         
+        // La variable initialAuthToken es específica del entorno de Canvas.
+        // En un despliegue normal, no existirá o será null/vacío.
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-        // --- FIN DE LA CORRECCIÓN ---
 
         const firebaseApp = initializeApp(firebaseConfig);
         const firestoreDb = getFirestore(firebaseApp);
@@ -52,10 +52,11 @@ const FirebaseProvider = ({ children }) => {
                 setLoadingFirebase(false);
             } else {
                 try {
-                    if (initialAuthToken) {
+                    // FIX: Solo intentar signInWithCustomToken si initialAuthToken es un string no vacío.
+                    // De lo contrario, siempre usar signInAnonymously.
+                    if (initialAuthToken && initialAuthToken.length > 0) {
                         await signInWithCustomToken(firebaseAuth, initialAuthToken);
                     } else {
-                        // Si no hay token personalizado (fuera de Canvas), iniciar sesión anónimamente
                         await signInAnonymously(firebaseAuth);
                     }
                 } catch (error) {
@@ -66,7 +67,7 @@ const FirebaseProvider = ({ children }) => {
         });
 
         return () => unsubscribe();
-    }, []);
+    }, []); // Dependencias vacías para que se ejecute solo una vez al montar
 
     // Se pasa el appId a los componentes hijos para construir las rutas de Firestore
     return (
@@ -424,11 +425,10 @@ const PlaceList = ({ onSelectPlace }) => {
 };
 
 // Componente para los detalles de un lugar
-const PlaceDetail = ({ place, onBack }) => {
+const PlaceDetail = ({ place, onBack, setAlertMessage }) => { // Recibir setAlertMessage como prop
     const { db, loadingFirebase, userId, appId } = useFirebase(); // Obtener appId del contexto
     const [isStamped, setIsStamped] = useState(false);
     const [loadingStamp, setLoadingStamp] = useState(true);
-    const [alertMessage, setAlertMessage] = useState(null);
     const [commentText, setCommentText] = useState('');
     const [difficultyRating, setDifficultyRating] = useState(0); // Changed to 0 for initial state
     const [experienceRating, setExperienceRating] = useState(0); // Changed to 0 for initial state
@@ -575,7 +575,8 @@ const PlaceDetail = ({ place, onBack }) => {
 
     return (
         <div className="container mx-auto p-4">
-            {alertMessage && <CustomAlertDialog message={alertMessage} onClose={() => setAlertMessage(null)} />}
+            {/* setAlertMessage ahora se pasa como prop */}
+            <CustomAlertDialog message={alertMessage} onClose={() => setAlertMessage(null)} />
             <button
                 onClick={onBack}
                 className="mb-6 px-6 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition duration-300 font-medium shadow-md flex items-center"
@@ -850,7 +851,7 @@ const SubmitPlace = () => {
         popularity: ''
     });
     const [submitting, setSubmitting] = useState(false);
-    const [alertMessage, setAlertMessage] = useState(null);
+    const [alertMessage, setAlertMessage] = useState(null); // FIX: setAlertMessage defined here
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -868,7 +869,7 @@ const SubmitPlace = () => {
         try {
             const pendingPlacesCollectionRef = collection(db, `artifacts/${appId}/public/data/pendingPlaces`);
 
-            await addDoc(pendingPlacesRef, { // FIX: Use pendingPlacesCollectionRef instead of pendingPlacesRef
+            await addDoc(pendingPlacesCollectionRef, { // FIX: Use pendingPlacesCollectionRef instead of pendingPlacesRef
                 ...formData,
                 activities: formData.activities.split(',').map(item => item.trim()).filter(item => item !== ''),
                 galleryImages: formData.galleryImages.split(',').map(item => item.trim()).filter(item => item !== ''),
@@ -1129,7 +1130,7 @@ const GroupTrips = () => {
         capacity: ''
     });
     const [submittingTrip, setSubmittingTrip] = useState(false);
-    const [alertMessage, setAlertMessage] = useState(null);
+    const [alertMessage, setAlertMessage] = useState(null); // FIX: setAlertMessage defined here
 
     useEffect(() => {
         if (!db || loadingFirebase || !userId || !appId) { // Asegurarse de que appId esté disponible
@@ -1391,14 +1392,13 @@ const GroupTrips = () => {
 };
 
 // Componente para Crear Tours
-const CreateTour = ({ onNavigate }) => {
+const CreateTour = ({ onNavigate, setAlertMessage }) => { // Recibir setAlertMessage como prop
     const { db, loadingFirebase, userId, appId } = useFirebase(); // Obtener appId del contexto
     const [tourName, setTourName] = useState('');
     const [tourDescription, setTourDescription] = useState('');
     const [allPlaces, setAllPlaces] = useState([]);
     const [selectedPlaceIds, setSelectedPlaceIds] = useState([]);
     const [submitting, setSubmitting] = useState(false);
-    const [alertMessage, setAlertMessage] = useState(null);
 
     useEffect(() => {
         if (!db || loadingFirebase || !userId || !appId) { // Asegurarse de que appId esté disponible
@@ -1528,11 +1528,10 @@ const CreateTour = ({ onNavigate }) => {
 };
 
 // Componente para ver detalles de un Tour
-const TourDetail = ({ tour, onBack, onNavigate }) => {
+const TourDetail = ({ tour, onBack, onNavigate, setAlertMessage }) => { // Recibir setAlertMessage como prop
     const { db, loadingFirebase, userId, appId } = useFirebase(); // Obtener appId del contexto
     const [placesInTour, setPlacesInTour] = useState([]);
     const [loadingPlaces, setLoadingPlaces] = useState(true);
-    const [alertMessage, setAlertMessage] = useState(null);
 
     useEffect(() => {
         if (!db || loadingFirebase || !tour || !tour.places || !appId) { // Asegurarse de que appId esté disponible
@@ -1586,7 +1585,8 @@ const TourDetail = ({ tour, onBack, onNavigate }) => {
 
     return (
         <div className="container mx-auto p-4">
-            {alertMessage && <CustomAlertDialog message={alertMessage} onClose={() => setAlertMessage(null)} />}
+            {/* setAlertMessage ahora se pasa como prop */}
+            <CustomAlertDialog message={alertMessage} onClose={() => setAlertMessage(null)} />
             <button
                 onClick={() => onNavigate('toursList')}
                 className="mb-6 px-6 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition duration-300 font-medium shadow-md flex items-center"
@@ -1747,6 +1747,7 @@ const App = () => {
     const [currentPage, setCurrentPage] = useState('home');
     const [selectedPlace, setSelectedPlace] = useState(null);
     const [selectedTour, setSelectedTour] = useState(null); // New state for selected tour
+    const [alertMessage, setAlertMessage] = useState(null); // Centralizar el estado de la alerta
     const { userId } = useFirebase(); // Get userId from context
 
     const navigateTo = (page, data = null) => {
@@ -1784,26 +1785,31 @@ const App = () => {
             <Header onNavigate={navigateTo} userId={userId} />
 
             <main className="py-8">
+                {/* CustomAlertDialog se renderiza aquí para que esté disponible globalmente */}
+                {alertMessage && <CustomAlertDialog message={alertMessage} onClose={() => setAlertMessage(null)} />}
+
                 {(() => {
                     switch (currentPage) {
                         case 'home':
                             return <PlaceList onSelectPlace={(place) => navigateTo('placeDetail', place)} />;
                         case 'placeDetail':
-                            return <PlaceDetail place={selectedPlace} onBack={() => navigateTo('home')} />;
+                            // Pasar setAlertMessage como prop
+                            return <PlaceDetail place={selectedPlace} onBack={() => navigateTo('home')} setAlertMessage={setAlertMessage} />;
                         case 'myPassport':
-                            return <MyPassport />;
+                            return <MyPassport setAlertMessage={setAlertMessage} />; // Pasar setAlertMessage como prop
                         case 'submitPlace':
-                            return <SubmitPlace />;
+                            return <SubmitPlace setAlertMessage={setAlertMessage} />; // Pasar setAlertMessage como prop
                         case 'leaderboard':
                             return <Leaderboard />;
                         case 'groupTrips':
-                            return <GroupTrips />;
+                            return <GroupTrips setAlertMessage={setAlertMessage} />; // Pasar setAlertMessage como prop
                         case 'createTour':
-                            return <CreateTour onNavigate={navigateTo} />;
+                            return <CreateTour onNavigate={navigateTo} setAlertMessage={setAlertMessage} />; // Pasar setAlertMessage como prop
                         case 'toursList':
                             return <ToursList onNavigate={navigateTo} />;
                         case 'tourDetail':
-                            return <TourDetail tour={selectedTour} onNavigate={navigateTo} />;
+                            // Pasar setAlertMessage como prop
+                            return <TourDetail tour={selectedTour} onNavigate={navigateTo} setAlertMessage={setAlertMessage} />;
                         default:
                             return <PlaceList onSelectPlace={(place) => navigateTo('placeDetail', place)} />;
                     }
@@ -1822,7 +1828,7 @@ export default function WrappedApp() {
     return (
         <FirebaseProvider>
             <App />
-        </FirebaseProvider>
+        </FirebaseContext.Provider>
     );
 }
 
