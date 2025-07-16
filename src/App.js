@@ -171,12 +171,12 @@ const PlaceList = ({ onSelectPlace }) => {
              if (snapshot.empty) {
                 // If the collection is empty, add dummy data
                 const dummyPlaces = [
-                    { name: "Canal de Panamá", description: "Observa los gigantes barcos transitar por las esclusas de Miraflores.", imageUrl: "https://images.unsplash.com/photo-1596701859666-4171631486d3?q=80&w=2940&auto=format&fit=crop", galleryImages: ["https://placehold.co/800x600/007bff/ffffff?text=Canal+1", "https://placehold.co/800x600/007bff/ffffff?text=Canal+2"], stampImageUrl: "https://placehold.co/150x150/007BFF/FFFFFF?text=Canal%0APTY&font=Inter&shape=hexagon", activities: ["Observar el tránsito de barcos", "Visitar el museo y el cine"], howToGetThere: "Se puede llegar en taxi o tour desde la Ciudad de Panamá.", latitude: 8.9904, longitude: -79.5746, difficulty: 1, popularity: 5 },
-                    { name: "Casco Antiguo", description: "Explora las calles empedradas y la arquitectura colonial del centro histórico.", imageUrl: "https://images.unsplash.com/photo-1623867664366-2d334e3a479a?q=80&w=2832&auto=format&fit=crop", galleryImages: ["https://placehold.co/800x600/28a745/ffffff?text=Casco+1", "https://placehold.co/800x600/28a745/ffffff?text=Casco+2"], stampImageUrl: "https://placehold.co/150x150/FF6B6B/FFFFFF?text=Casco%0APTY&font=Inter&shape=circle", activities: ["Pasear por las plazas históricas", "Visitar iglesias y museos"], howToGetThere: "Fácilmente accesible en taxi o Uber.", latitude: 8.9500, longitude: -79.5333, difficulty: 2, popularity: 4 },
-                    { name: "Parque Natural Metropolitano", description: "Un oasis de selva tropical dentro de la ciudad, hogar de una rica biodiversidad.", imageUrl: "https://images.unsplash.com/photo-1589182372005-f5b244747192?q=80&w=2940&auto=format&fit=crop", galleryImages: ["https://placehold.co/800x600/ffc107/000000?text=Parque+1", "https://placehold.co/800x600/ffc107/000000?text=Parque+2"], stampImageUrl: "https://placehold.co/150x150/4CAF50/FFFFFF?text=Parque%0APTY&font=Inter&shape=square", activities: ["Caminatas por los senderos", "Observación de aves y vida silvestre"], howToGetThere: "Ubicado cerca de la Vía Ricardo J. Alfaro.", latitude: 8.9950, longitude: -79.5580, difficulty: 2, popularity: 3 },
-                    { name: "Biomuseo", description: "Un museo de historia natural diseñado por Frank Gehry que narra la historia del istmo.", imageUrl: "https://images.unsplash.com/photo-1628170295624-9b5f5f1f7b7f?q=80&w=2940&auto=format&fit=crop", galleryImages: ["https://placehold.co/800x600/dc3545/ffffff?text=Biomuseo+1", "https://placehold.co/800x600/dc3545/ffffff?text=Biomuseo+2"], stampImageUrl: "https://placehold.co/150x150/2196F3/FFFFFF?text=Biomuseo%0APTY&font=Inter&shape=pentagon", activities: ["Explorar las ocho galerías permanentes", "Disfrutar de la arquitectura"], howToGetThere: "Situado en la Calzada de Amador.", latitude: 8.9288, longitude: -79.5303, difficulty: 1, popularity: 4 },
-                    { name: "Cerro Ancón", description: "El punto más alto de la Ciudad de Panamá, ofreciendo vistas espectaculares.", imageUrl: "https://images.unsplash.com/photo-1596701859666-4171631486d3?q=80&w=2940&auto=format&fit=crop", galleryImages: ["https://placehold.co/800x600/6c757d/ffffff?text=Ancon+1", "https://placehold.co/800x600/6c757d/ffffff?text=Ancon+2"], stampImageUrl: "https://placehold.co/150x150/FFC107/000000?text=Ancón%0APTY&font=Inter&shape=diamond", activities: ["Caminata hasta la cima", "Disfrutar de las vistas panorámicas"], howToGetThere: "Se puede acceder en coche o taxi.", latitude: 8.9600, longitude: -79.5500, difficulty: 3, popularity: 2 },
-                    { name: "Valle de Antón", description: "Un pueblo pintoresco en el cráter de un volcán, conocido por sus mercados y cascadas.", imageUrl: "https://images.unsplash.com/photo-1577741369524-2c2b3e4f7e2d?q=80&w=2940&auto=format&fit=crop", galleryImages: ["https://placehold.co/800x600/8c52ff/ffffff?text=Valle+1", "https://placehold.co/800x600/8c52ff/ffffff?text=Valle+2"], stampImageUrl: "https://placehold.co/150x150/9C27B0/FFFFFF?text=Valle%0APTY&font=Inter&shape=star", activities: ["Visitar el mercado de artesanías", "Explorar la cascada El Chorro Macho"], howToGetThere: "Aproximadamente 2 horas en coche desde la Ciudad de Panamá.", latitude: 8.6000, longitude: -80.1333, difficulty: 2, popularity: 4 }
+                    { name: "Canal de Panamá", description: "Observa los gigantes barcos transitar por las esclusas de Miraflores.", imageUrl: "https://picsum.photos/800/600?random=1", galleryImages: ["https://picsum.photos/800/600?random=2", "https://picsum.photos/800/600?random=3"], stampImageUrl: "https://placehold.co/150x150/007BFF/FFFFFF?text=Canal%0APTY&font=Inter&shape=hexagon", activities: ["Observar el tránsito de barcos", "Visitar el museo y el cine"], howToGetThere: "Se puede llegar en taxi o tour desde la Ciudad de Panamá.", latitude: 8.9904, longitude: -79.5746, difficulty: 1, popularity: 5 },
+                    { name: "Casco Antiguo", description: "Explora las calles empedradas y la arquitectura colonial del centro histórico.", imageUrl: "https://picsum.photos/800/600?random=4", galleryImages: ["https://picsum.photos/800/600?random=5", "https://picsum.photos/800/600?random=6"], stampImageUrl: "https://placehold.co/150x150/FF6B6B/FFFFFF?text=Casco%0APTY&font=Inter&shape=circle", activities: ["Pasear por las plazas históricas", "Visitar iglesias y museos"], howToGetThere: "Fácilmente accesible en taxi o Uber.", latitude: 8.9500, longitude: -79.5333, difficulty: 2, popularity: 4 },
+                    { name: "Parque Natural Metropolitano", description: "Un oasis de selva tropical dentro de la ciudad, hogar de una rica biodiversidad.", imageUrl: "https://picsum.photos/800/600?random=7", galleryImages: ["https://picsum.photos/800/600?random=8", "https://picsum.photos/800/600?random=9"], stampImageUrl: "https://placehold.co/150x150/4CAF50/FFFFFF?text=Parque%0APTY&font=Inter&shape=square", activities: ["Caminatas por los senderos", "Observación de aves y vida silvestre"], howToGetThere: "Ubicado cerca de la Vía Ricardo J. Alfaro.", latitude: 8.9950, longitude: -79.5580, difficulty: 2, popularity: 3 },
+                    { name: "Biomuseo", description: "Un museo de historia natural diseñado por Frank Gehry que narra la historia del istmo.", imageUrl: "https://picsum.photos/800/600?random=10", galleryImages: ["https://picsum.photos/800/600?random=11", "https://picsum.photos/800/600?random=12"], stampImageUrl: "https://placehold.co/150x150/2196F3/FFFFFF?text=Biomuseo%0APTY&font=Inter&shape=pentagon", activities: ["Explorar las ocho galerías permanentes", "Disfrutar de la arquitectura"], howToGetThere: "Situado en la Calzada de Amador.", latitude: 8.9288, longitude: -79.5303, difficulty: 1, popularity: 4 },
+                    { name: "Cerro Ancón", description: "El punto más alto de la Ciudad de Panamá, ofreciendo vistas espectaculares.", imageUrl: "https://picsum.photos/800/600?random=13", galleryImages: ["https://picsum.photos/800/600?random=14", "https://picsum.photos/800/600?random=15"], stampImageUrl: "https://placehold.co/150x150/FFC107/000000?text=Ancón%0APTY&font=Inter&shape=diamond", activities: ["Caminata hasta la cima", "Disfrutar de las vistas panorámicas"], howToGetThere: "Se puede acceder en coche o taxi.", latitude: 8.9600, longitude: -79.5500, difficulty: 3, popularity: 2 },
+                    { name: "Valle de Antón", description: "Un pueblo pintoresco en el cráter de un volcán, conocido por sus mercados y cascadas.", imageUrl: "https://picsum.photos/800/600?random=16", galleryImages: ["https://picsum.photos/800/600?random=17", "https://picsum.photos/800/600?random=18"], stampImageUrl: "https://placehold.co/150x150/9C27B0/FFFFFF?text=Valle%0APTY&font=Inter&shape=star", activities: ["Visitar el mercado de artesanías", "Explorar la cascada El Chorro Macho"], howToGetThere: "Aproximadamente 2 horas en coche desde la Ciudad de Panamá.", latitude: 8.6000, longitude: -80.1333, difficulty: 2, popularity: 4 }
                 ];
                 for (const place of dummyPlaces) { await addDoc(placesCollectionRef, place); }
             }
@@ -198,11 +198,11 @@ const PlaceList = ({ onSelectPlace }) => {
     if (loading) return <div className="text-center p-10">Cargando lugares...</div>;
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4 md:p-8">
             <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-4 mt-4">Explora Panamá</h2>
-            <p className="text-center text-gray-600 mb-8">Descubre los tesoros escondidos y los lugares más icónicos de Panamá.</p>
+            <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">Descubre los tesoros escondidos y los lugares más icónicos de Panamá, filtrados a tu gusto.</p>
             
-            <div className="mb-8 p-4 bg-white rounded-xl shadow-md flex flex-col sm:flex-row gap-4 items-center">
+            <div className="mb-10 p-4 bg-white rounded-xl shadow-md flex flex-col sm:flex-row gap-4 items-center">
                 <input type="text" placeholder="Buscar por nombre..." className="w-full sm:w-1/2 px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-blue-500" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 <div className="w-full sm:w-1/2">
                     <label htmlFor="difficulty" className="sr-only">Filtrar por dificultad</label>
@@ -219,7 +219,7 @@ const PlaceList = ({ onSelectPlace }) => {
                 {filteredPlaces.map(place => (
                     <div key={place.id} className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer group" onClick={() => onSelectPlace(place)}>
                         <div className="w-full h-56 bg-cover bg-center rounded-t-xl relative overflow-hidden">
-                             <img src={place.imageUrl} alt={place.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onError={(e) => { e.target.src = `https://placehold.co/600x400/ccc/000?text=${encodeURIComponent(place.name)}`; }}/>
+                             <img src={place.imageUrl} alt={place.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onError={(e) => { e.target.src = `https://picsum.photos/600/400`; }}/>
                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
                             <h3 className="absolute bottom-4 left-4 text-2xl font-bold text-white drop-shadow-lg">{place.name}</h3>
                         </div>
@@ -236,76 +236,6 @@ const PlaceList = ({ onSelectPlace }) => {
         </div>
     );
 };
-
-// ... (The rest of the components are now fully implemented below)
-
-// --- Main App Component ---
-// Manages routing and global state like alerts.
-const App = () => {
-    const [currentPage, setCurrentPage] = useState('home');
-    const [selectedPlace, setSelectedPlace] = useState(null);
-    const [selectedTour, setSelectedTour] = useState(null);
-    const [alertMessage, setAlertMessage] = useState(null);
-    const { userId, loadingFirebase } = useFirebase();
-
-    const navigateTo = (page, data = null) => {
-        window.scrollTo(0, 0); // Scroll to top on page change
-        setCurrentPage(page);
-        setSelectedPlace(page === 'placeDetail' ? data : null);
-        setSelectedTour(page === 'tourDetail' ? data : null);
-    };
-
-    const renderPage = () => {
-        if (loadingFirebase) {
-            return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div></div>;
-        }
-        const pageComponents = {
-            home: <PlaceList onSelectPlace={(place) => navigateTo('placeDetail', place)} />,
-            placeDetail: <PlaceDetail place={selectedPlace} onBack={() => navigateTo('home')} setAlertMessage={setAlertMessage} />,
-            myPassport: <MyPassport setAlertMessage={setAlertMessage} />,
-            submitPlace: <SubmitPlace setAlertMessage={setAlertMessage} onNavigate={navigateTo} />,
-            leaderboard: <Leaderboard />,
-            groupTrips: <GroupTrips setAlertMessage={setAlertMessage} />,
-            createTour: <CreateTour onNavigate={navigateTo} setAlertMessage={setAlertMessage} />,
-            toursList: <ToursList onNavigate={navigateTo} />,
-            tourDetail: <TourDetail tour={selectedTour} onBack={() => navigateTo('toursList')} setAlertMessage={setAlertMessage} />,
-        };
-        return pageComponents[currentPage] || pageComponents['home'];
-    };
-
-    return (
-        <div className="min-h-screen bg-gray-50 font-inter antialiased">
-            <style>{`
-                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-                body { font-family: 'Inter', sans-serif; }
-                @keyframes fade-in {
-                    from { opacity: 0; transform: scale(0.98); }
-                    to { opacity: 1; transform: scale(1); }
-                }
-                .animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
-            `}</style>
-            
-            <Header onNavigate={navigateTo} userId={userId} />
-            <CustomAlertDialog message={alertMessage} onClose={() => setAlertMessage(null)} />
-            <main className="py-8">{renderPage()}</main>
-            <footer className="bg-gray-800 text-white text-center p-6 mt-12 rounded-t-xl">
-                <p>&copy; ${new Date().getFullYear()} Pasaporte Virtual Panamá. Una nueva forma de explorar.</p>
-            </footer>
-        </div>
-    );
-};
-
-// --- Entry Point ---
-// Wraps the main App with the FirebaseProvider.
-export default function WrappedApp() {
-    return (
-        <FirebaseProvider>
-            <App />
-        </FirebaseProvider>
-    );
-}
-
-// --- Full Component Implementations ---
 
 const PlaceDetail = ({ place, onBack, setAlertMessage }) => {
     const { db, userId, appId } = useFirebase();
@@ -339,6 +269,17 @@ const PlaceDetail = ({ place, onBack, setAlertMessage }) => {
             unsubscribeComments();
         };
     }, [db, userId, appId, place]);
+    
+    const averageRatings = useMemo(() => {
+        if (comments.length === 0) return { difficulty: 0, experience: 0 };
+        const totalDifficulty = comments.reduce((acc, c) => acc + c.difficultyRating, 0);
+        const totalExperience = comments.reduce((acc, c) => acc + c.experienceRating, 0);
+        return {
+            difficulty: totalDifficulty / comments.length,
+            experience: totalExperience / comments.length
+        };
+    }, [comments]);
+
 
     const handleStampClick = async () => {
         if (!db || !userId || !place || !appId) return;
@@ -392,7 +333,8 @@ const PlaceDetail = ({ place, onBack, setAlertMessage }) => {
             if (navigator.share) {
                 await navigator.share({ title: `Pasaporte Virtual Panamá: ${place.name}`, text: shareText, url: shareUrl });
             } else {
-                setAlertMessage("Copia y pega para compartir: " + shareText + " " + shareUrl);
+                navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
+                setAlertMessage("¡Enlace copiado al portapapeles!");
             }
         } catch (error) {
             console.error('Error al compartir:', error);
@@ -410,59 +352,70 @@ const PlaceDetail = ({ place, onBack, setAlertMessage }) => {
     if (!place) return <div className="text-center p-10">Selecciona un lugar para ver detalles.</div>;
 
     return (
-        <div className="container mx-auto p-4 animate-fade-in">
+        <div className="container mx-auto p-4 md:p-8 animate-fade-in">
             <button onClick={onBack} className="mb-6 px-6 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition duration-300 font-medium shadow-md flex items-center">
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Volver a Lugares
             </button>
-            <div className="bg-white rounded-xl shadow-xl overflow-hidden p-6">
-                 <img src={place.imageUrl} alt={place.name} className="w-full h-80 object-cover rounded-lg mb-6 shadow-md" onError={(e) => { e.target.src = `https://placehold.co/800x400/ccc/000?text=${encodeURIComponent(place.name)}`; }}/>
-                
-                {place.galleryImages && place.galleryImages.length > 0 && (
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-                        {place.galleryImages.map((img, index) => (
-                            <img key={index} src={img} alt={`${place.name} Galería ${index + 1}`} className="w-full h-32 object-cover rounded-lg shadow-sm" onError={(e) => { e.target.src = `https://placehold.co/300x200/eee/333?text=Imagen`; }}/>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-2">{place.name}</h1>
+            <div className="flex items-center gap-4 mb-6 text-sm text-gray-600">
+                <div className="flex items-center gap-1">
+                    <svg className="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.929 8.72c-.783-.57-.381-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"></path></svg>
+                    <span className="font-bold">{averageRatings.experience.toFixed(1)}</span>
+                    <span>({comments.length} opiniones)</span>
+                </div>
+                <span>·</span>
+                <span>{place.name}</span>
+            </div>
+
+            {/* Image Gallery */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-8 rounded-2xl overflow-hidden h-96">
+                <div className="col-span-2 row-span-2">
+                    <img src={place.imageUrl} alt={place.name} className="w-full h-full object-cover cursor-pointer" onError={(e) => { e.target.src = `https://picsum.photos/1200/800`; }}/>
+                </div>
+                {place.galleryImages?.slice(0, 2).map((img, index) => (
+                    <div key={index} className="col-span-1 row-span-1">
+                        <img src={img} alt={`${place.name} ${index+1}`} className="w-full h-full object-cover cursor-pointer" onError={(e) => { e.target.src = `https://picsum.photos/600/400`; }}/>
+                    </div>
+                ))}
+            </div>
+
+            {/* Main Content */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-16">
+                <div className="lg:col-span-2">
+                    <p className="text-gray-700 text-lg mb-8 leading-relaxed">{place.description}</p>
+                    <div className="border-t border-gray-200 my-8"></div>
+                    
+                    {/* Activities Section */}
+                    <h3 className="text-2xl font-semibold mb-4">Actividades y Tips</h3>
+                    <div className="space-y-4">
+                        {place.activities?.map((activity, index) => (
+                            <div key={index} className="flex items-center gap-4">
+                                <div className="bg-blue-100 p-2 rounded-lg"><svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg></div>
+                                <span>{activity}</span>
+                            </div>
                         ))}
                     </div>
-                )}
 
-                <h2 className="text-5xl font-extrabold text-gray-900 mb-4">{place.name}</h2>
-                <p className="text-gray-700 text-lg mb-6 leading-relaxed">{place.description}</p>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <h3 className="text-2xl font-semibold text-gray-800 mb-3">Actividades</h3>
-                        <ul className="list-disc list-inside text-gray-600 space-y-2">
-                            {place.activities?.map((activity, index) => <li key={index}>{activity}</li>)}
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 className="text-2xl font-semibold text-gray-800 mb-3">Cómo Llegar</h3>
-                        <p className="text-gray-600 mb-3">{place.howToGetThere}</p>
-                        {mapLinks && (
-                            <div className="flex space-x-4 mt-2">
-                                <a href={mapLinks.googleMapsUrl} target="_blank" rel="noopener noreferrer" className="flex items-center text-blue-600 hover:underline">Google Maps</a>
-                                <a href={mapLinks.wazeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center text-blue-600 hover:underline">Waze</a>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                <div className="mt-8 text-center flex flex-col sm:flex-row justify-center items-center gap-4">
-                    {loadingStamp ? <div>Verificando...</div> : isStamped ? (
-                        <div className="flex flex-col items-center justify-center">
-                            <img src={place.stampImageUrl} alt="Sello digital" className="w-24 h-24 object-contain mb-2" />
-                            <p className="text-emerald-600 text-2xl font-bold">¡Pasaporte Sellado!</p>
+                    <div className="border-t border-gray-200 my-8"></div>
+                    
+                    {/* Comments Section */}
+                    <h3 className="text-2xl font-semibold mb-4">{comments.length} Opiniones</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <div className="flex justify-between items-center mb-1"><span>Dificultad</span><span>{averageRatings.difficulty.toFixed(1)}</span></div>
+                            <div className="w-full bg-gray-200 rounded-full h-1.5"><div className="bg-blue-600 h-1.5 rounded-full" style={{width: `${(averageRatings.difficulty/3)*100}%`}}></div></div>
                         </div>
-                    ) : (
-                        <button onClick={handleStampClick} className="px-8 py-4 bg-indigo-600 text-white text-xl font-bold rounded-full shadow-lg hover:bg-indigo-700">Sellar Pasaporte</button>
-                    )}
-                     <button onClick={handleSharePlace} className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-full shadow-md hover:bg-blue-600">Compartir</button>
-                </div>
-
-                <div className="mt-12 pt-8 border-t">
-                    <h3 className="text-3xl font-semibold text-center mb-6">Comentarios</h3>
-                    <form onSubmit={handleCommentSubmit} className="mb-8 p-4 bg-gray-50 rounded-lg">
+                        <div>
+                            <div className="flex justify-between items-center mb-1"><span>Experiencia</span><span>{averageRatings.experience.toFixed(1)}</span></div>
+                            <div className="w-full bg-gray-200 rounded-full h-1.5"><div className="bg-blue-600 h-1.5 rounded-full" style={{width: `${(averageRatings.experience/5)*100}%`}}></div></div>
+                        </div>
+                    </div>
+                    
+                    {/* Leave a comment Form */}
+                    <div className="border-t border-gray-200 my-8"></div>
+                     <h3 className="text-2xl font-semibold mb-4">Deja tu opinión</h3>
+                     <form onSubmit={handleCommentSubmit} className="mb-8 p-4 bg-gray-50 rounded-lg">
                         <textarea className="w-full p-3 border rounded-lg mb-3" rows="3" placeholder="Añade tu comentario..." value={commentText} onChange={(e) => setCommentText(e.target.value)}></textarea>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                             <div>
@@ -476,20 +429,38 @@ const PlaceDetail = ({ place, onBack, setAlertMessage }) => {
                         </div>
                         <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded-lg font-medium">Publicar</button>
                     </form>
-                    {loadingComments ? <div>Cargando comentarios...</div> : comments.length === 0 ? <p className="text-center">Sé el primero en comentar.</p> : (
-                        <div className="space-y-4">
-                            {comments.map(comment => (
-                                <div key={comment.id} className="bg-gray-50 p-4 rounded-lg">
-                                    <p>{comment.commentText}</p>
-                                    <div className="flex items-center space-x-4 mt-2 text-sm">
-                                        <div className="flex items-center">Dificultad: <StarRating rating={comment.difficultyRating} maxStars={3} /></div>
-                                        <div className="flex items-center">Experiencia: <StarRating rating={comment.experienceRating} /></div>
+
+
+                    <div className="space-y-6">
+                        {comments.slice(0, 4).map(comment => (
+                            <div key={comment.id}>
+                                <div className="flex items-center gap-3 mb-2">
+                                    <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-500">{comment.userId.charAt(0).toUpperCase()}</div>
+                                    <div>
+                                        <p className="font-semibold">{comment.userId.substring(0,8)}...</p>
+                                        <p className="text-sm text-gray-500">{new Date(comment.timestamp.toDate()).toLocaleDateString()}</p>
                                     </div>
-                                    <p className="text-xs text-gray-500 mt-1">Por: {comment.userId.substring(0,8)}...</p>
                                 </div>
-                            ))}
-                        </div>
-                    )}
+                                <p>{comment.commentText}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Sticky Action Box */}
+                <div className="lg:col-span-1">
+                    <div className="sticky top-28 p-6 bg-white rounded-2xl shadow-xl border">
+                        <h3 className="text-xl font-bold mb-4">¿Listo para la aventura?</h3>
+                        {loadingStamp ? <div className="text-center">Cargando...</div> : isStamped ? (
+                            <div className="text-center">
+                                <img src={place.stampImageUrl} alt="Sello digital" className="w-24 h-24 object-contain mb-2 mx-auto" />
+                                <p className="text-emerald-600 font-bold">¡Ya tienes este sello!</p>
+                            </div>
+                        ) : (
+                             <button onClick={handleStampClick} className="w-full px-8 py-3 bg-blue-600 text-white text-lg font-bold rounded-lg shadow-lg hover:bg-blue-700 transition">Sellar Pasaporte</button>
+                        )}
+                        <button onClick={handleSharePlace} className="w-full mt-4 px-8 py-3 bg-gray-200 text-gray-800 text-lg font-bold rounded-lg hover:bg-gray-300 transition">Compartir</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -520,7 +491,7 @@ const MyPassport = ({ setAlertMessage }) => {
     if (loading) return <div className="text-center p-10">Cargando tu pasaporte...</div>;
 
     return (
-        <div className="container mx-auto p-4 animate-fade-in">
+        <div className="container mx-auto p-4 md:p-8 animate-fade-in">
             <h2 className="text-4xl font-extrabold text-center mb-8 mt-4">Mi Pasaporte Sellado</h2>
             {visits.length === 0 ? <p className="text-center">Aún no has sellado ningún lugar.</p> : (
                 <>
@@ -579,10 +550,10 @@ const SubmitPlace = ({ setAlertMessage, onNavigate }) => {
     };
 
     return (
-        <div className="container mx-auto p-4 animate-fade-in">
+        <div className="container mx-auto p-4 md:p-8 animate-fade-in">
             <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8 mt-4">Solicitar Añadir un Lugar</h2>
-            <div className="bg-white rounded-xl shadow-lg p-6 max-w-2xl mx-auto">
-                <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="bg-white rounded-xl shadow-lg p-8 max-w-2xl mx-auto">
+                <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label htmlFor="name" className="block text-gray-700 font-medium mb-1">Nombre del Lugar</label>
                         <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className="w-full px-4 py-2 border rounded-lg"/>
@@ -635,7 +606,7 @@ const Leaderboard = () => {
     if (loading) return <div className="text-center p-10">Cargando ranking...</div>;
 
     return (
-        <div className="container mx-auto p-4 animate-fade-in">
+        <div className="container mx-auto p-4 md:p-8 animate-fade-in">
             <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8 mt-4">Ranking de Exploradores</h2>
             <div className="bg-white rounded-xl shadow-lg p-6 max-w-2xl mx-auto">
                 <table className="min-w-full divide-y divide-gray-200">
@@ -732,7 +703,7 @@ const GroupTrips = ({ setAlertMessage }) => {
     if (loading) return <div className="text-center p-10">Cargando viajes...</div>;
 
     return (
-        <div className="container mx-auto p-4 animate-fade-in">
+        <div className="container mx-auto p-4 md:p-8 animate-fade-in">
             {boardingPass && (
                 <Modal onClose={() => setBoardingPass(null)}>
                     <div className="bg-blue-50 p-6 rounded-lg border-2 border-dashed border-blue-300 relative">
@@ -756,9 +727,9 @@ const GroupTrips = ({ setAlertMessage }) => {
                 </Modal>
             )}
             <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8 mt-4">Viajes en Grupo</h2>
-            <div className="bg-white rounded-xl shadow-lg p-6 mb-8 max-w-2xl mx-auto">
+            <div className="bg-white rounded-xl shadow-lg p-8 mb-10 max-w-2xl mx-auto">
                  <h3 className="text-2xl font-semibold mb-4">Crear un Nuevo Viaje</h3>
-                 <form onSubmit={handleCreateTrip} className="space-y-4">
+                 <form onSubmit={handleCreateTrip} className="space-y-6">
                     <input type="text" name="placeName" value={newTripData.placeName} onChange={handleNewTripChange} placeholder="Nombre del Lugar" required className="w-full p-2 border rounded"/>
                     <div className="flex gap-4">
                         <input type="date" name="date" value={newTripData.date} onChange={handleNewTripChange} required className="w-full p-2 border rounded"/>
@@ -841,9 +812,9 @@ const CreateTour = ({ onNavigate, setAlertMessage }) => {
     };
 
     return (
-        <div className="container mx-auto p-4 animate-fade-in">
+        <div className="container mx-auto p-4 md:p-8 animate-fade-in">
             <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8 mt-4">Crea Tu Propio Tour</h2>
-            <div className="bg-white rounded-xl shadow-lg p-6 max-w-3xl mx-auto">
+            <div className="bg-white rounded-xl shadow-lg p-8 max-w-3xl mx-auto">
                 <form onSubmit={handleSubmitTour} className="space-y-6">
                     <div>
                         <label htmlFor="tourName" className="block text-gray-700 font-medium mb-1">Nombre del Tour</label>
@@ -890,7 +861,7 @@ const ToursList = ({ onNavigate }) => {
     if (loading) return <div className="text-center p-10">Cargando tours...</div>;
 
     return (
-        <div className="container mx-auto p-4 animate-fade-in">
+        <div className="container mx-auto p-4 md:p-8 animate-fade-in">
             <div className="flex justify-between items-center mb-8">
                 <h2 className="text-4xl font-extrabold text-gray-800">Tours Disponibles</h2>
                 <button onClick={() => onNavigate('createTour')} className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-full shadow-md hover:bg-blue-700">Crear Tour</button>
@@ -932,9 +903,9 @@ const TourDetail = ({ tour, onBack, setAlertMessage }) => {
     if (!tour) return <div className="text-center p-10">Tour no encontrado.</div>;
 
     return (
-        <div className="container mx-auto p-4 animate-fade-in">
+        <div className="container mx-auto p-4 md:p-8 animate-fade-in">
              <button onClick={onBack} className="mb-6 px-6 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300">Volver a Tours</button>
-            <div className="bg-white rounded-xl shadow-xl p-6">
+            <div className="bg-white rounded-xl shadow-xl p-8">
                 <h2 className="text-4xl font-extrabold mb-4">{tour.name}</h2>
                 <p className="text-lg text-gray-600 mb-6">{tour.description}</p>
                 <h3 className="text-2xl font-semibold mb-4">Lugares en este Tour:</h3>
@@ -957,3 +928,69 @@ const TourDetail = ({ tour, onBack, setAlertMessage }) => {
         </div>
     );
 };
+
+// --- Main App Component ---
+// Manages routing and global state like alerts.
+const App = () => {
+    const [currentPage, setCurrentPage] = useState('home');
+    const [selectedPlace, setSelectedPlace] = useState(null);
+    const [selectedTour, setSelectedTour] = useState(null);
+    const [alertMessage, setAlertMessage] = useState(null);
+    const { userId, loadingFirebase } = useFirebase();
+
+    const navigateTo = (page, data = null) => {
+        window.scrollTo(0, 0); // Scroll to top on page change
+        setCurrentPage(page);
+        setSelectedPlace(page === 'placeDetail' ? data : null);
+        setSelectedTour(page === 'tourDetail' ? data : null);
+    };
+
+    const renderPage = () => {
+        if (loadingFirebase) {
+            return <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div></div>;
+        }
+        const pageComponents = {
+            home: <PlaceList onSelectPlace={(place) => navigateTo('placeDetail', place)} />,
+            placeDetail: <PlaceDetail place={selectedPlace} onBack={() => navigateTo('home')} setAlertMessage={setAlertMessage} />,
+            myPassport: <MyPassport setAlertMessage={setAlertMessage} />,
+            submitPlace: <SubmitPlace setAlertMessage={setAlertMessage} onNavigate={navigateTo} />,
+            leaderboard: <Leaderboard />,
+            groupTrips: <GroupTrips setAlertMessage={setAlertMessage} />,
+            createTour: <CreateTour onNavigate={navigateTo} setAlertMessage={setAlertMessage} />,
+            toursList: <ToursList onNavigate={navigateTo} />,
+            tourDetail: <TourDetail tour={selectedTour} onBack={() => navigateTo('toursList')} setAlertMessage={setAlertMessage} />,
+        };
+        return pageComponents[currentPage] || pageComponents['home'];
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-50 font-inter antialiased">
+            <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+                body { font-family: 'Inter', sans-serif; }
+                @keyframes fade-in {
+                    from { opacity: 0; transform: scale(0.98); }
+                    to { opacity: 1; transform: scale(1); }
+                }
+                .animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
+            `}</style>
+            
+            <Header onNavigate={navigateTo} userId={userId} />
+            <CustomAlertDialog message={alertMessage} onClose={() => setAlertMessage(null)} />
+            <main className="py-8">{renderPage()}</main>
+            <footer className="bg-gray-800 text-white text-center p-6 mt-12 rounded-t-xl">
+                <p>&copy; ${new Date().getFullYear()} Pasaporte Virtual Panamá. Una nueva forma de explorar.</p>
+            </footer>
+        </div>
+    );
+};
+
+// --- Entry Point ---
+// Wraps the main App with the FirebaseProvider.
+export default function WrappedApp() {
+    return (
+        <FirebaseProvider>
+            <App />
+        </FirebaseProvider>
+    );
+}
