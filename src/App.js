@@ -13,11 +13,30 @@ const FirebaseProvider = ({ children }) => {
     const [auth, setAuth] = useState(null);
     const [userId, setUserId] = useState(null);
     const [loadingFirebase, setLoadingFirebase] = useState(true);
+    const [appId, setAppId] = useState(null); // FIX: appId moved to state
 
     useEffect(() => {
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        // --- INICIO DE LA CORRECCIÓN ---
+        // Estas variables son inyectadas por el entorno de Canvas.
+        // Para el despliegue fuera de Canvas, se usan valores por defecto o se espera que el usuario las configure.
+        const currentAppId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'; // Get appId value
+        setAppId(currentAppId); // Set appId to state
+        
+        // Configuración de Firebase. EN UN ENTORNO REAL, DEBES REEMPLAZAR ESTO CON TU PROPIA CONFIGURACIÓN DE FIREBASE
+        // Puedes obtenerla desde la consola de Firebase -> Configuración del proyecto -> Tus apps -> Web (</>)
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            // Ejemplo de una configuración real (REEMPLAZA CON LA TUYA):
+            // apiKey: "TU_API_KEY",
+            // authDomain: "TU_PROYECTO.firebaseapp.com",
+            // projectId: "TU_PROYECTO",
+            // storageBucket: "TU_PROYECTO.appspot.com",
+            // messagingSenderId: "TU_SENDER_ID",
+            // appId: "TU_APP_ID",
+            // measurementId: "TU_MEASUREMENT_ID"
+        };
+        
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        // --- FIN DE LA CORRECCIÓN ---
 
         const firebaseApp = initializeApp(firebaseConfig);
         const firestoreDb = getFirestore(firebaseApp);
@@ -36,6 +55,7 @@ const FirebaseProvider = ({ children }) => {
                     if (initialAuthToken) {
                         await signInWithCustomToken(firebaseAuth, initialAuthToken);
                     } else {
+                        // Si no hay token personalizado (fuera de Canvas), iniciar sesión anónimamente
                         await signInAnonymously(firebaseAuth);
                     }
                 } catch (error) {
@@ -48,8 +68,9 @@ const FirebaseProvider = ({ children }) => {
         return () => unsubscribe();
     }, []);
 
+    // Se pasa el appId a los componentes hijos para construir las rutas de Firestore
     return (
-        <FirebaseContext.Provider value={{ app, db, auth, userId, loadingFirebase }}>
+        <FirebaseContext.Provider value={{ app, db, auth, userId, loadingFirebase, appId }}>
             {children}
         </FirebaseContext.Provider>
     );
@@ -184,17 +205,16 @@ const ClickableStarRating = ({ rating, setRating, maxStars = 5 }) => {
 
 // Componente para la lista de lugares
 const PlaceList = ({ onSelectPlace }) => {
-    const { db, loadingFirebase, userId } = useFirebase();
+    const { db, loadingFirebase, userId, appId } = useFirebase(); // Obtener appId del contexto
     const [places, setPlaces] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!db || loadingFirebase || !userId) {
+        if (!db || loadingFirebase || !userId || !appId) { // Asegurarse de que appId esté disponible
             return;
         }
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const placesCollectionRef = collection(db, `artifacts/${appId}/public/data/places`);
 
         const unsubscribe = onSnapshot(placesCollectionRef, (snapshot) => {
@@ -349,7 +369,7 @@ const PlaceList = ({ onSelectPlace }) => {
         checkAndAddDummyData();
 
         return () => unsubscribe();
-    }, [db, loadingFirebase, userId]);
+    }, [db, loadingFirebase, userId, appId]); // Añadir appId como dependencia
 
     const getDifficultyText = (level) => {
         switch (level) {
@@ -405,7 +425,7 @@ const PlaceList = ({ onSelectPlace }) => {
 
 // Componente para los detalles de un lugar
 const PlaceDetail = ({ place, onBack }) => {
-    const { db, loadingFirebase, userId } = useFirebase();
+    const { db, loadingFirebase, userId, appId } = useFirebase(); // Obtener appId del contexto
     const [isStamped, setIsStamped] = useState(false);
     const [loadingStamp, setLoadingStamp] = useState(true);
     const [alertMessage, setAlertMessage] = useState(null);
@@ -416,11 +436,10 @@ const PlaceDetail = ({ place, onBack }) => {
     const [loadingComments, setLoadingComments] = useState(true);
 
     useEffect(() => {
-        if (!db || loadingFirebase || !userId || !place) {
+        if (!db || loadingFirebase || !userId || !appId || !place) { // Asegurarse de que appId esté disponible
             return;
         }
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const visitsCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/visits`);
         const q = query(visitsCollectionRef, where("placeId", "==", place.id));
 
@@ -449,16 +468,13 @@ const PlaceDetail = ({ place, onBack }) => {
             unsubscribeVisits();
             unsubscribeComments();
         };
-    }, [db, loadingFirebase, userId, place]);
+    }, [db, loadingFirebase, userId, appId, place]); // Añadir appId como dependencia
 
     const handleStampClick = async () => {
-        if (!db || !userId || !place) return;
+        if (!db || !userId || !place || !appId) return; // Asegurarse de que appId esté disponible
 
         setLoadingStamp(true);
         try {
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
-            // 1. Add visit to user's private visits collection
             const visitsCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/visits`);
             await addDoc(visitsCollectionRef, {
                 placeId: place.id,
@@ -487,7 +503,7 @@ const PlaceDetail = ({ place, onBack }) => {
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
-        if (!db || !userId || !place || commentText.trim() === '') {
+        if (!db || !userId || !place || commentText.trim() === '' || !appId) { // Asegurarse de que appId esté disponible
             setAlertMessage("El comentario no puede estar vacío.");
             return;
         }
@@ -498,7 +514,6 @@ const PlaceDetail = ({ place, onBack }) => {
         }
 
         try {
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
             const commentsCollectionRef = collection(db, `artifacts/${appId}/public/data/placeComments/${place.id}/comments`);
             await addDoc(commentsCollectionRef, {
                 userId: userId,
@@ -729,17 +744,16 @@ const PlaceDetail = ({ place, onBack }) => {
 
 // Componente para "Mi Pasaporte"
 const MyPassport = () => {
-    const { db, loadingFirebase, userId } = useFirebase();
+    const { db, loadingFirebase, userId, appId } = useFirebase(); // Obtener appId del contexto
     const [visits, setVisits] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!db || loadingFirebase || !userId) {
+        if (!db || loadingFirebase || !userId || !appId) { // Asegurarse de que appId esté disponible
             return;
         }
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const visitsCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/visits`);
 
         const unsubscribe = onSnapshot(visitsCollectionRef, (snapshot) => {
@@ -755,7 +769,7 @@ const MyPassport = () => {
         });
 
         return () => unsubscribe();
-    }, [db, loadingFirebase, userId]);
+    }, [db, loadingFirebase, userId, appId]); // Añadir appId como dependencia
 
     const handleDownloadPassport = () => {
         // This is a placeholder for the actual download functionality.
@@ -823,7 +837,7 @@ const MyPassport = () => {
 
 // Componente para solicitar añadir un lugar
 const SubmitPlace = () => {
-    const { db, loadingFirebase, userId } = useFirebase();
+    const { db, loadingFirebase, userId, appId } = useFirebase(); // Obtener appId del contexto
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -845,17 +859,16 @@ const SubmitPlace = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!db || !userId) {
+        if (!db || !userId || !appId) { // Asegurarse de que appId esté disponible
             setAlertMessage("Error: No se pudo conectar con la base de datos.");
             return;
         }
 
         setSubmitting(true);
         try {
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
             const pendingPlacesCollectionRef = collection(db, `artifacts/${appId}/public/data/pendingPlaces`);
 
-            await addDoc(pendingPlacesCollectionRef, {
+            await addDoc(pendingPlacesRef, { // FIX: Use pendingPlacesCollectionRef instead of pendingPlacesRef
                 ...formData,
                 activities: formData.activities.split(',').map(item => item.trim()).filter(item => item !== ''),
                 galleryImages: formData.galleryImages.split(',').map(item => item.trim()).filter(item => item !== ''),
@@ -1031,18 +1044,16 @@ const SubmitPlace = () => {
 
 // Componente para el Ranking de Usuarios
 const Leaderboard = () => {
-    const { db, loadingFirebase, userId } = useFirebase();
+    const { db, loadingFirebase, userId, appId } = useFirebase(); // Obtener appId del contexto
     const [leaderboardData, setLeaderboardData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!db || loadingFirebase || !userId) {
+        if (!db || loadingFirebase || !userId || !appId) { // Asegurarse de que appId esté disponible
             return;
         }
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        // Fetch user stats from the public 'userStats' collection
         const userStatsCollectionRef = collection(db, `artifacts/${appId}/public/data/userStats`);
 
         const unsubscribe = onSnapshot(userStatsCollectionRef, (snapshot) => {
@@ -1058,7 +1069,7 @@ const Leaderboard = () => {
         });
 
         return () => unsubscribe();
-    }, [db, loadingFirebase, userId]);
+    }, [db, loadingFirebase, userId, appId]); // Añadir appId como dependencia
 
     if (loading || loadingFirebase) {
         return (
@@ -1108,7 +1119,7 @@ const Leaderboard = () => {
 
 // Componente para Viajes en Grupo
 const GroupTrips = () => {
-    const { db, loadingFirebase, userId } = useFirebase();
+    const { db, loadingFirebase, userId, appId } = useFirebase(); // Obtener appId del contexto
     const [trips, setTrips] = useState([]);
     const [newTripData, setNewTripData] = useState({
         placeName: '',
@@ -1121,11 +1132,10 @@ const GroupTrips = () => {
     const [alertMessage, setAlertMessage] = useState(null);
 
     useEffect(() => {
-        if (!db || loadingFirebase || !userId) {
+        if (!db || loadingFirebase || !userId || !appId) { // Asegurarse de que appId esté disponible
             return;
         }
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const groupTripsCollectionRef = collection(db, `artifacts/${appId}/public/data/groupTrips`);
 
         const unsubscribe = onSnapshot(groupTripsCollectionRef, (snapshot) => {
@@ -1137,7 +1147,7 @@ const GroupTrips = () => {
         });
 
         return () => unsubscribe();
-    }, [db, loadingFirebase, userId]);
+    }, [db, loadingFirebase, userId, appId]); // Añadir appId como dependencia
 
     const handleNewTripChange = (e) => {
         const { name, value } = e.target;
@@ -1146,7 +1156,7 @@ const GroupTrips = () => {
 
     const handleCreateTrip = async (e) => {
         e.preventDefault();
-        if (!db || !userId) {
+        if (!db || !userId || !appId) { // Asegurarse de que appId esté disponible
             setAlertMessage("Error: No se pudo conectar con la base de datos.");
             return;
         }
@@ -1161,7 +1171,6 @@ const GroupTrips = () => {
 
         setSubmittingTrip(true);
         try {
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
             const groupTripsCollectionRef = collection(db, `artifacts/${appId}/public/data/groupTrips`);
 
             await addDoc(groupTripsCollectionRef, {
@@ -1183,7 +1192,7 @@ const GroupTrips = () => {
     };
 
     const handleJoinTrip = async (tripId, currentParticipants, capacity) => {
-        if (!db || !userId) {
+        if (!db || !userId || !appId) { // Asegurarse de que appId esté disponible
             setAlertMessage("Error: No se pudo conectar con la base de datos.");
             return;
         }
@@ -1197,7 +1206,6 @@ const GroupTrips = () => {
         }
 
         try {
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
             const tripDocRef = doc(db, `artifacts/${appId}/public/data/groupTrips`, tripId);
             await updateDoc(tripDocRef, {
                 participants: arrayUnion(userId)
@@ -1384,7 +1392,7 @@ const GroupTrips = () => {
 
 // Componente para Crear Tours
 const CreateTour = ({ onNavigate }) => {
-    const { db, loadingFirebase, userId } = useFirebase();
+    const { db, loadingFirebase, userId, appId } = useFirebase(); // Obtener appId del contexto
     const [tourName, setTourName] = useState('');
     const [tourDescription, setTourDescription] = useState('');
     const [allPlaces, setAllPlaces] = useState([]);
@@ -1393,16 +1401,15 @@ const CreateTour = ({ onNavigate }) => {
     const [alertMessage, setAlertMessage] = useState(null);
 
     useEffect(() => {
-        if (!db || loadingFirebase || !userId) {
+        if (!db || loadingFirebase || !userId || !appId) { // Asegurarse de que appId esté disponible
             return;
         }
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const placesCollectionRef = collection(db, `artifacts/${appId}/public/data/places`);
         const unsubscribe = onSnapshot(placesCollectionRef, (snapshot) => {
             setAllPlaces(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
         });
         return () => unsubscribe();
-    }, [db, loadingFirebase, userId]);
+    }, [db, loadingFirebase, userId, appId]); // Añadir appId como dependencia
 
     const handlePlaceSelection = (placeId) => {
         setSelectedPlaceIds(prev =>
@@ -1412,7 +1419,7 @@ const CreateTour = ({ onNavigate }) => {
 
     const handleSubmitTour = async (e) => {
         e.preventDefault();
-        if (!db || !userId) {
+        if (!db || !userId || !appId) { // Asegurarse de que appId esté disponible
             setAlertMessage("Error: No se pudo conectar con la base de datos.");
             return;
         }
@@ -1423,7 +1430,6 @@ const CreateTour = ({ onNavigate }) => {
 
         setSubmitting(true);
         try {
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
             const toursCollectionRef = collection(db, `artifacts/${appId}/public/data/tours`);
             await addDoc(toursCollectionRef, {
                 name: tourName,
@@ -1523,16 +1529,15 @@ const CreateTour = ({ onNavigate }) => {
 
 // Componente para ver detalles de un Tour
 const TourDetail = ({ tour, onBack, onNavigate }) => {
-    const { db, loadingFirebase, userId } = useFirebase();
+    const { db, loadingFirebase, userId, appId } = useFirebase(); // Obtener appId del contexto
     const [placesInTour, setPlacesInTour] = useState([]);
     const [loadingPlaces, setLoadingPlaces] = useState(true);
     const [alertMessage, setAlertMessage] = useState(null);
 
     useEffect(() => {
-        if (!db || loadingFirebase || !tour || !tour.places) {
+        if (!db || loadingFirebase || !tour || !tour.places || !appId) { // Asegurarse de que appId esté disponible
             return;
         }
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const placesCollectionRef = collection(db, `artifacts/${appId}/public/data/places`);
 
         const fetchTourPlaces = async () => {
@@ -1549,13 +1554,12 @@ const TourDetail = ({ tour, onBack, onNavigate }) => {
         };
 
         fetchTourPlaces();
-    }, [db, loadingFirebase, tour]);
+    }, [db, loadingFirebase, tour, appId]); // Añadir appId como dependencia
 
     const handleScheduleTour = async () => {
-        if (!db || !userId || !tour) return;
+        if (!db || !userId || !tour || !appId) return; // Asegurarse de que appId esté disponible
 
         try {
-            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
             const scheduledToursCollectionRef = collection(db, `artifacts/${appId}/users/${userId}/scheduledTours`);
             await addDoc(scheduledToursCollectionRef, {
                 tourId: tour.id,
@@ -1639,18 +1643,17 @@ const TourDetail = ({ tour, onBack, onNavigate }) => {
 
 // Componente para Listar Tours
 const ToursList = ({ onNavigate }) => {
-    const { db, loadingFirebase, userId } = useFirebase();
+    const { db, loadingFirebase, userId, appId } = useFirebase(); // Obtener appId del contexto
     const [tours, setTours] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [placesMap, setPlacesMap] = useState({}); // To map place IDs to names
 
     useEffect(() => {
-        if (!db || loadingFirebase || !userId) {
+        if (!db || loadingFirebase || !userId || !appId) { // Asegurarse de que appId esté disponible
             return;
         }
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const toursCollectionRef = collection(db, `artifacts/${appId}/public/data/tours`);
         const placesCollectionRef = collection(db, `artifacts/${appId}/public/data/places`);
 
@@ -1676,7 +1679,7 @@ const ToursList = ({ onNavigate }) => {
         });
 
         return () => unsubscribe();
-    }, [db, loadingFirebase, userId]);
+    }, [db, loadingFirebase, userId, appId]); // Añadir appId como dependencia
 
     if (loading || loadingFirebase) {
         return (
