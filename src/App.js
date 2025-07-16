@@ -16,27 +16,42 @@ const FirebaseProvider = ({ children }) => {
     const [appId, setAppId] = useState(null); // appId ahora es parte del estado del proveedor
 
     useEffect(() => {
-        // Estas variables son inyectadas por el entorno de Canvas.
-        // Para el despliegue fuera de Canvas, se usan valores por defecto o se espera que el usuario las configure.
-        const currentAppId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        setAppId(currentAppId); // Se establece el appId en el estado
+        let firebaseConfig = {};
+        let initialAuthToken = null;
+        let currentAppId = 'default-app-id';
 
-        // --- INICIO DE LA CONFIGURACIÓN REAL DE FIREBASE ---
-        // ¡ESTA ES LA CONFIGURACIÓN QUE ME PROPORCIONASTE DE TU PROYECTO FIREBASE!
-        const firebaseConfig = {
-            apiKey: "AIzaSyBNqUyW6ayNujKbHBRBpBX_BozCBb3WjE0",
-            authDomain: "pasaportepanamaapp.firebaseapp.com",
-            projectId: "pasaportepanamaapp",
-            storageBucket: "pasaportepanamaapp.firebasestorage.app",
-            messagingSenderId: "114145620624",
-            appId: "1:114145620624:web:81814d8cfffa7a5091de15",
-            measurementId: "G-E38Z66B96R"
-        };
-        // --- FIN DE LA CONFIGURACIÓN REAL DE FIREBASE ---
+        // FIX: Acceder a las variables globales a través de window y solo si window está definido.
+        // Añadir supresiones de ESLint para evitar 'no-undef' durante la compilación.
+        if (typeof window !== 'undefined') {
+            // eslint-disable-next-line no-undef
+            currentAppId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            // eslint-disable-next-line no-undef
+            firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+                // Configuración de Firebase real (REEMPLAZA CON LA TUYA)
+                apiKey: "AIzaSyBNqUyW6ayNujKbHBRBpBX_BozCBb3WjE0",
+                authDomain: "pasaportepanamaapp.firebaseapp.com",
+                projectId: "pasaportepanamaapp",
+                storageBucket: "pasaportepanamaapp.firebasestorage.app",
+                messagingSenderId: "114145620624",
+                appId: "1:114145620624:web:81814d8cfffa7a5091de15",
+                measurementId: "G-E38Z66B96R"
+            };
+            // eslint-disable-next-line no-undef
+            initialAuthToken = typeof __initial_auth_token !== 'undefined' ? window.__initial_auth_token : null;
+        } else {
+            // Si window no está definido (ej. durante la compilación en el servidor), usar la configuración predeterminada
+            firebaseConfig = {
+                apiKey: "AIzaSyBNqUyW6ayNujKbHBRBpBX_BozCBb3WjE0",
+                authDomain: "pasaportepanamaapp.firebaseapp.com",
+                projectId: "pasaportepanamaapp",
+                storageBucket: "pasaportepanamaapp.firebasestorage.app",
+                messagingSenderId: "114145620624",
+                appId: "1:114145620624:web:81814d8cfffa7a5091de15",
+                measurementId: "G-E38Z66B96R"
+            };
+        }
         
-        // La variable initialAuthToken es específica del entorno de Canvas.
-        // En un despliegue normal, no existirá o será null/vacío.
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        setAppId(currentAppId); // Se establece el appId en el estado
 
         const firebaseApp = initializeApp(firebaseConfig);
         const firestoreDb = getFirestore(firebaseApp);
@@ -52,8 +67,6 @@ const FirebaseProvider = ({ children }) => {
                 setLoadingFirebase(false);
             } else {
                 try {
-                    // FIX: Solo intentar signInWithCustomToken si initialAuthToken es un string no vacío.
-                    // De lo contrario, siempre usar signInAnonymously.
                     if (initialAuthToken && initialAuthToken.length > 0) {
                         await signInWithCustomToken(firebaseAuth, initialAuthToken);
                     } else {
@@ -407,7 +420,7 @@ const PlaceList = ({ onSelectPlace }) => {
                                     <span className="ml-1 text-gray-600">({place.popularity || 'N/A'})</span>
                                 </div>
                                 <div className="flex items-center">
-                                    <svg className="w-5 h-5 mr-1 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                    <svg className="w-5 h-5 mr-1 text-blue-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                                     <span>{getDifficultyText(place.difficulty)}</span>
                                 </div>
                             </div>
@@ -581,7 +594,7 @@ const PlaceDetail = ({ place, onBack, setAlertMessage }) => { // Recibir setAler
                 onClick={onBack}
                 className="mb-6 px-6 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition duration-300 font-medium shadow-md flex items-center"
             >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Volver a Lugares
             </button>
 
@@ -613,7 +626,7 @@ const PlaceDetail = ({ place, onBack, setAlertMessage }) => { // Recibir setAler
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
                         <h3 className="text-2xl font-semibold text-gray-800 mb-3 flex items-center">
-                            <svg className="w-6 h-6 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                            <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                             Actividades y Tips
                         </h3>
                         <ul className="list-disc list-inside text-gray-600 space-y-2">
@@ -624,7 +637,7 @@ const PlaceDetail = ({ place, onBack, setAlertMessage }) => { // Recibir setAler
                     </div>
                     <div>
                         <h3 className="text-2xl font-semibold text-gray-800 mb-3 flex items-center">
-                            <svg className="w-6 h-6 mr-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0L6.343 16.657m10.607-10.607L13.414 3.1a1.998 1.998 0 00-2.828 0L6.343 6.657m10.607 10.607V20m0-3.343s-2.783-1.67-5.657-1.67C9.343 15 6.343 16.657 6.343 16.657V20M6.343 6.657V3m0 3.343s2.783 1.67 5.657 1.67C14.657 8.33 17.657 6.657 17.657 6.657V3"></path></svg>
+                            <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0L6.343 16.657m10.607-10.607L13.414 3.1a1.998 1.998 0 00-2.828 0L6.343 6.657m10.607 10.607V20m0-3.343s-2.783-1.67-5.657-1.67C9.343 15 6.343 16.657 6.343 16.657V20M6.343 6.657V3m0 3.343s2.783 1.67 5.657 1.67C14.657 8.33 17.657 6.657 17.657 6.657V3"></path></svg>
                             Cómo Llegar
                         </h3>
                         <p className="text-gray-600 mb-3">{place.howToGetThere}</p>
@@ -1467,7 +1480,7 @@ const CreateTour = ({ onNavigate, setAlertMessage }) => { // Recibir setAlertMes
                 onClick={() => onNavigate('home')}
                 className="mb-6 px-6 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition duration-300 font-medium shadow-md flex items-center"
             >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Volver
             </button>
             <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8 mt-4">Crea Tu Propio Tour</h2>
@@ -1590,7 +1603,7 @@ const TourDetail = ({ tour, onBack, onNavigate, setAlertMessage }) => { // Recib
                 onClick={() => onNavigate('toursList')}
                 className="mb-6 px-6 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition duration-300 font-medium shadow-md flex items-center"
             >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Volver a Tours
             </button>
 
@@ -1699,7 +1712,7 @@ const ToursList = ({ onNavigate }) => {
                 onClick={() => onNavigate('home')}
                 className="mb-6 px-6 py-2 bg-gray-200 text-gray-800 rounded-full hover:bg-gray-300 transition duration-300 font-medium shadow-md flex items-center"
             >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Volver
             </button>
             <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8 mt-4">Tours Disponibles</h2>
